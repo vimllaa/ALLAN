@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A.L.L.A.N. Research Terminal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Scenen är alltid 1024×600 "inuti" och skalas av app.js så att den fyller fönstret. -->
+  <div id="stage">
+
+    <!-- Täckpaneler över det som är inbakat i bilden -->
+    <div class="cover" id="cover-nav"></div>
+    <div class="cover" id="cover-clock"></div>
+    <div class="cover" id="cover-status"></div>
+
+    <!-- Toppmenyn (egna versioner av bildens fem ord) -->
+    <nav id="topnav">
+      <span data-nav="archive">ARCHIVE</span><i>/</i>
+      <span data-nav="observation">OBSERVATION</span><i>/</i>
+      <span data-nav="audio">AUDIO</span><i>/</i>
+      <span data-nav="experiments">EXPERIMENTS</span><i>/</i>
+      <span data-nav="reports">REPORTS</span>
+    </nav>
+
+    <!-- Levande datum och klocka -->
+    <div id="clock"><div id="clock-date"></div><div id="clock-time"></div></div>
+
+    <!-- SUBJECT COHORT / STATUS -->
+    <div id="status">
+      <div><b>HR</b><u></u><span id="st-hr"></span></div>
+      <div><b>TEMP</b><u></u><span id="st-temp"></span></div>
+      <div><b>ACT</b><u></u><span id="st-act"></span></div>
+      <div><b>GLU</b><u></u><span id="st-glu"></span></div>
+      <div><b>STATE</b><u></u><span id="st-state"></span></div>
+    </div>
+
+    <!-- Stora mittenpanelen -->
+    <main id="main">
+      <header><h1 id="main-title"></h1><span id="main-tag"></span></header>
+      <div id="main-body"></div>
+      <footer id="main-pager"></footer>
+    </main>
+
+    <!-- EXPERIMENTAL NOTES: Dr. Pips logg, en rad per M01–M08 -->
+    <div id="notes">
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+
+    <!-- Bandet under mittenpanelen -->
+    <div id="hints"></div>
+    <div id="band-left"></div>
+    <div id="band-right"></div>
+
+    <!-- Felsökningsruta (tangenten D) -->
+    <pre id="debug" hidden></pre>
+  </div>
+
+  <script src="js/content.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
