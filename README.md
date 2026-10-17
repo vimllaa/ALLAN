@@ -16,9 +16,9 @@ Det går också bra att bara dubbelklicka på `index.html`.
 | Tangent | Gör |
 |---|---|
 | Piltangenter | Joysticken |
-| Enter eller mellanslag | A (välj) |
-| Esc eller backsteg | B (tillbaka) |
-| M | C (musen pratar) |
+| A, Enter eller mellanslag | A (välj) |
+| B, Esc eller backsteg | B (tillbaka) |
+| C eller M | C (musen pratar) |
 | D | Visa eller dölj felsökningsrutan |
 
 ### Genvägar när du testar

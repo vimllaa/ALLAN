@@ -222,7 +222,7 @@
     LR: '<i class="tri l"></i><i class="tri r"></i>',
   };
   function setHints(list) {
-    el.hints.innerHTML = list.map(([k, t]) => `<span><kbd>${KEYS[k]}</kbd>${esc(t)}</span>`).join("");
+    el.hints.innerHTML = list.map(([k, t]) => `<span><kbd data-k="${k}">${KEYS[k]}</kbd>${esc(t)}</span>`).join("");
   }
 
   /* ==========================================================================
@@ -593,14 +593,25 @@
       sfx.unlock();
       pipSay(pick(C.eggs.cheese));
     }
-    if (a === "c") return pipTalk();
     const cur = top();
-    if (cur) cur.on(a);
+    if (a === "c") pipTalk();
+    else if (cur) cur.on(a);
+    flashHint(a);
+  }
+
+  // Låter knappen i bandet blinka till när den trycks.
+  const HINT_OF = { a: "A", b: "B", c: "C", up: "UD", down: "UD", left: "LR", right: "LR" };
+  function flashHint(a) {
+    const k = el.hints.querySelector(`kbd[data-k="${HINT_OF[a]}"]`);
+    if (!k) return;
+    k.classList.add("hit");
+    setTimeout(() => k.classList.remove("hit"), 160);
   }
 
   const KEYMAP = {
     ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right",
     Enter: "a", " ": "a", Escape: "b", Backspace: "b", m: "c", M: "c",
+    a: "a", A: "a", b: "b", B: "b", c: "c", C: "c",   // samma bokstäver som knapparna på skärmen
   };
   window.addEventListener("keydown", (e) => {
     if (e.key === "d" || e.key === "D") { debugOn = !debugOn; el.debug.hidden = !debugOn; return; }
