@@ -1,9 +1,9 @@
 /* ==========================================================================
    A.L.L.A.N. — INNEHÅLL
    ==========================================================================
-   Här ligger ALLA texter: menyn, ärendefiler, ljudfiler, quizfrågor,
-   Dr. Pips repliker och slutrapporten. Du behöver aldrig röra app.js för
-   att ändra innehåll.
+   Här ligger nästan alla texter: menyn, ljudfiler, quizfrågor,
+   Dr. Pips repliker och slutrapporten. Arkivet ligger i archive.js.
+   Du behöver aldrig röra app.js för att ändra innehåll.
 
    BRA ATT VETA
    - Text står mellan citattecken: "så här". Varje rad i en lista avslutas
@@ -26,19 +26,19 @@ const CONTENT = {
      Raderna visas en i taget när väskan öppnas.
      ------------------------------------------------------------------------ */
   boot: {
-    title: "System Start",
+    title: "Systemstart",
     lines: [
-      "A.L.L.A.N. LONGITUDINAL OBSERVATION SYSTEM v2.3.1",
-      "Waking observation core ............ OK",
-      "Checking brass fittings ............ OK",
-      "Calibrating curiosity sensors ...... OK",
-      "Loading subject records ............ 4 812 entries",
-      "Locating laboratory mouse .......... FOUND (asleep)",
-      "Waking laboratory mouse ............ OK (reluctant)",
-      "Subject detected: ALLAN",
-      "Observation period: many years. Ethics approval: pending.",
+      "A.L.L.A.N. LONGITUDINELLT OBSERVATIONSSYSTEM v2.3.1",
+      "Väcker observationskärnan ........... OK",
+      "Kontrollerar mässingsbeslag ......... OK",
+      "Kalibrerar nyfikenhetssensorer ...... OK",
+      "Läser in försökspersonens akt ....... 4 812 poster",
+      "Lokaliserar laboratoriemus .......... HITTAD (sover)",
+      "Väcker laboratoriemus ............... OK (motvillig)",
+      "Försöksperson identifierad: ALLAN",
+      "Observationsperiod: många år. Etiskt tillstånd: inväntas.",
     ],
-    prompt: "PRESS  A  TO BEGIN",
+    prompt: "TRYCK  A  FÖR ATT BÖRJA",
   },
 
   /* ------------------------------------------------------------------------
@@ -47,142 +47,80 @@ const CONTENT = {
      Ändra INTE id. nav styr vilket ord i toppmenyn som lyser:
      "archive", "observation", "audio", "experiments" eller "reports".
      ------------------------------------------------------------------------ */
-  menuTitle: "Main Index",
+  menuTitle: "Huvudregister",
   menu: [
-    { id: "archive",  nav: "archive",     label: "Archive",          desc: "Case files collected on the subject." },
-    { id: "audio",    nav: "audio",       label: "Audio Logs",       desc: "Recorded field notes and messages." },
-    { id: "profile",  nav: "observation", label: "Subject Profile",  desc: "Everything the machine knows about Allan." },
-    { id: "quiz",     nav: "experiments", label: "Experiments",      desc: "A short cognitive assessment." },
-    { id: "mouse",    nav: "observation", label: "Mouse Research",   desc: "Independent studies by Dr. Pip." },
-    { id: "escape",   nav: "experiments", label: "Escape Protocol",  desc: "Containment exercise. Under construction." },
-    { id: "final",    nav: "reports",     label: "Final Report",     desc: "Conclusions of the observation." },
+    { id: "archive",  nav: "archive",     label: "Arkiv",               desc: "Insamlade handlingar om försökspersonen." },
+    { id: "audio",    nav: "audio",       label: "Ljudloggar",          desc: "Inspelade fältanteckningar och meddelanden." },
+    { id: "profile",  nav: "observation", label: "Försökspersonens profil", desc: "Allt maskinen vet om Allan." },
+    { id: "quiz",     nav: "experiments", label: "Experiment",          desc: "Ett kort kognitivt test." },
+    { id: "mouse",    nav: "observation", label: "Musforskning",        desc: "Oberoende studier av Dr. Pip." },
+    { id: "escape",   nav: "experiments", label: "Flyktprotokoll",      desc: "Inneslutningsövning. Under uppbyggnad." },
+    { id: "final",    nav: "reports",     label: "Slutrapport",         desc: "Observationens slutsatser." },
   ],
 
   /* ------------------------------------------------------------------------
-     ARCHIVE — ärendefiler
-     Lägg till en ny fil genom att kopiera ett helt block { ... }, klistra
-     in det sist i listan och ändra texterna.
-       id    = kort beteckning som visas till vänster
-       date  = valfri text, t.ex. ett årtal
-       title = rubriken
-       text  = ett eller flera stycken
+     ARKIV
+     Arkivet har en egen fil: js/archive.js. Där finns kapitlen, bilderna,
+     konversationerna och en förklaring av hur man lägger till nya bevis.
      ------------------------------------------------------------------------ */
-  archive: [
-    {
-      id: "CF-001",
-      date: "BYT UT: år",
-      title: "First Contact",
-      text: [
-        "The subject was first observed in his natural habitat. Initial notes describe him as curious, well-mannered and suspiciously good at explaining things.",
-        "[BYT UT: skriv här hur ni träffades, gärna i samma torra forskarton.]",
-        "Recommendation at the time: continue observation. This recommendation has never been withdrawn.",
-      ],
-    },
-    {
-      id: "CF-002",
-      date: "The thesis years",
-      title: "Prolonged Exposure to Research",
-      text: [
-        "The subject voluntarily entered a doctoral programme. No coercion was detected. Researchers remain puzzled.",
-        "Over the following years he was observed pipetting, re-pipetting, reading the same paragraph eleven times, and saying \"it is almost done\" with decreasing conviction.",
-        "Despite this, the subject continued to treat patients, answer messages from friends and show up when it mattered. This is considered statistically unusual.",
-      ],
-    },
-    {
-      id: "CF-003",
-      date: "BYT UT: datum",
-      title: "Field Observation",
-      text: [
-        "[BYT UT: ett minne från en resa, en fest eller en helt vanlig kväll som blev minnesvärd.]",
-        "Observers noted elevated laughter levels for several hours afterwards. No adverse effects were recorded.",
-      ],
-    },
-    {
-      id: "CF-004",
-      date: "Ongoing",
-      title: "Dietary Analysis",
-      text: [
-        "Primary fuel source: coffee. Secondary fuel source: more coffee. Tertiary fuel source: whatever was left in the department kitchen.",
-        "Note the irony of a man studying glucose metabolism while living on cinnamon buns during deadline weeks. The machine does not judge. The mouse does, a little.",
-      ],
-    },
-    {
-      id: "CF-005",
-      date: "BYT UT: datum",
-      title: "Incident Report",
-      text: [
-        "[BYT UT: den där historien som alltid berättas. Ni vet vilken.]",
-        "The subject maintains that it was not his fault. The archive takes no position, but has kept the photographs.",
-      ],
-    },
-    {
-      id: "CF-006",
-      date: "Classified",
-      title: "A Note from the Observers",
-      text: [
-        "This file is not scientific.",
-        "[BYT UT: en genuin hälsning. Vad Allan betyder för dig, och varför du byggde en hel maskin för att säga det.]",
-      ],
-    },
-  ],
 
   /* ------------------------------------------------------------------------
-     AUDIO LOGS — ljudfiler
+     LJUDLOGGAR — ljudfiler
      1. Lägg ljudfilen i mappen audio/ (mp3, ogg eller wav).
      2. Lägg till en rad här med exakt samma filnamn.
-     Saknas filen visas "FILE NOT FOUND" i stället för att något kraschar.
+     Saknas filen visas "FIL SAKNAS" i stället för att något kraschar.
      ------------------------------------------------------------------------ */
   audio: [
-    { title: "Log 01 — Opening Statement",  note: "BYT UT: vem som pratar", file: "audio/log01.mp3" },
-    { title: "Log 02 — Field Recording",    note: "BYT UT: vem som pratar", file: "audio/log02.mp3" },
-    { title: "Log 03 — Message for Subject", note: "BYT UT: vem som pratar", file: "audio/log03.mp3" },
+    { title: "Logg 01 — Inledande anförande",       note: "BYT UT: vem som pratar", file: "audio/log01.mp3" },
+    { title: "Logg 02 — Fältinspelning",            note: "BYT UT: vem som pratar", file: "audio/log02.mp3" },
+    { title: "Logg 03 — Meddelande till försökspersonen", note: "BYT UT: vem som pratar", file: "audio/log03.mp3" },
   ],
 
   /* ------------------------------------------------------------------------
-     SUBJECT PROFILE
+     FÖRSÖKSPERSONENS PROFIL
      Varje block är en sida. rows är par av ["Etikett", "Värde"].
      Högst 8 rader per sida får plats.
      ------------------------------------------------------------------------ */
   profile: [
     {
-      title: "Identity",
+      title: "Identitet",
       rows: [
-        ["Designation", "Subject A"],
-        ["Name", "Allan"],
-        ["Species", "Homo sapiens (var. medicus)"],
-        ["Occupation", "Physician, PhD candidate"],
-        ["Status", "Pre-defence"],
-        ["Habitat", "Clinic, lab, wherever the coffee is"],
-        ["Threat level", "Minimal (rises when hungry)"],
+        ["Beteckning", "Försöksperson A"],
+        ["Namn", "Allan"],
+        ["Art", "Homo sapiens (var. medicus)"],
+        ["Yrke", "Läkare, doktorand"],
+        ["Status", "Inför disputation"],
+        ["Habitat", "Klinik, labb, där kaffet finns"],
+        ["Hotnivå", "Minimal (stiger vid hunger)"],
       ],
     },
     {
-      title: "Measured Traits",
+      title: "Uppmätta egenskaper",
       rows: [
-        ["Curiosity", "97 %"],
-        ["Kindness", "Off the chart (chart replaced twice)"],
-        ["Patience", "High with patients, low with printers"],
-        ["Coffee dependency", "Clinically significant"],
-        ["Sleep", "Data missing"],
-        ["Humour", "Dry, well tolerated"],
+        ["Nyfikenhet", "97 %"],
+        ["Vänlighet", "Utanför skalan (skalan bytt två gånger)"],
+        ["Tålamod", "Högt med patienter, lågt med skrivare"],
+        ["Kaffeberoende", "Kliniskt signifikant"],
+        ["Sömn", "Data saknas"],
+        ["Humor", "Torr, väl tolererad"],
         ["BYT UT: egenskap", "BYT UT: värde"],
       ],
     },
     {
-      title: "Thesis",
+      title: "Avhandlingen",
       rows: [
-        ["Title", "Sweet Beginnings, Lasting Consequences"],
-        ["Field", "Maternal diabetes, cardiometabolic outcomes in offspring"],
-        ["Model organism", "Mus musculus (see: Dr. Pip)"],
-        ["Pages", "Too many"],
-        ["Defence date", "BYT UT: datum"],
-        ["Predicted outcome", "Pass, with applause"],
+        ["Titel", "Sweet Beginnings, Lasting Consequences"],
+        ["Område", "Diabetes under graviditet, kardiometabola utfall hos avkomman"],
+        ["Modellorganism", "Mus musculus (se: Dr. Pip)"],
+        ["Antal sidor", "För många"],
+        ["Disputationsdatum", "BYT UT: datum"],
+        ["Förväntat utfall", "Godkänd, med applåder"],
       ],
     },
   ],
 
   /* ------------------------------------------------------------------------
-     EXPERIMENTS — quiz
+     EXPERIMENT — quiz
      Lägg till en fråga genom att kopiera ett block.
        q       = frågan
        options = 2–4 svarsalternativ
@@ -193,115 +131,118 @@ const CONTENT = {
      Raden med högst min som spelaren når upp till visas.
      ------------------------------------------------------------------------ */
   quiz: {
-    title: "Cognitive Assessment",
+    title: "Kognitivt test",
     intro: [
-      "The subject will now be tested. Answer honestly. Results are permanent and will be entered into the Final Report.",
-      "There is no time limit. The mouse is watching.",
+      "Försökspersonen ska nu testas. Svara ärligt. Resultaten är permanenta och förs in i slutrapporten.",
+      "Det finns ingen tidsgräns. Musen tittar på.",
     ],
     questions: [
       {
-        q: "What is the primary energy source of a PhD candidate?",
-        options: ["Glucose", "Coffee", "Sleep", "Hope"],
+        q: "Vilken är en doktorands främsta energikälla?",
+        options: ["Glukos", "Kaffe", "Sömn", "Hopp"],
         correct: 1,
-        right: "Correct. Hope was depleted in year two.",
-        wrong: "Incorrect. The answer is coffee. It has always been coffee.",
+        right: "Rätt. Hoppet tog slut under år två.",
+        wrong: "Fel. Svaret är kaffe. Det har alltid varit kaffe.",
       },
       {
-        q: "The molecular formula of glucose is:",
+        q: "Glukosets summaformel är:",
         options: ["C6H12O6", "C2H5OH", "H2O", "Fe2O3"],
         correct: 0,
-        right: "Correct. It is also printed on the wall behind you.",
-        wrong: "Incorrect. The subject has written a thesis on this. Concerning.",
+        right: "Rätt. Den står också på väggen bakom dig.",
+        wrong: "Fel. Försökspersonen har skrivit en avhandling om det här. Oroande.",
       },
       {
-        q: "Reviewer 2 asks for \"minor revisions\". This means:",
-        options: ["A few typos", "Three new experiments", "Start over", "Nobody knows"],
+        q: "Granskare 2 ber om \"mindre revideringar\". Det betyder:",
+        options: ["Några stavfel", "Tre nya experiment", "Börja om", "Ingen vet"],
         correct: 3,
-        right: "Correct. Nobody has ever known.",
-        wrong: "Incorrect. Nobody knows, least of all Reviewer 2.",
+        right: "Rätt. Ingen har någonsin vetat.",
+        wrong: "Fel. Ingen vet, allra minst Granskare 2.",
       },
       {
-        q: "Which species has contributed most to the subject's thesis?",
-        options: ["Homo sapiens", "Mus musculus", "Supervisors", "The coffee machine"],
+        q: "Vilken art har bidragit mest till försökspersonens avhandling?",
+        options: ["Homo sapiens", "Mus musculus", "Handledarna", "Kaffemaskinen"],
         correct: 1,
-        right: "Correct. Dr. Pip accepts your gratitude.",
-        wrong: "Incorrect. Dr. Pip is deeply offended.",
+        right: "Rätt. Dr. Pip tar emot din tacksamhet.",
+        wrong: "Fel. Dr. Pip är djupt förolämpad.",
       },
       {
-        q: "Someone asks \"So when are you finished with the PhD?\" The correct response is:",
-        options: ["A precise date", "A long sigh", "\"Soon\"", "Change the subject"],
+        q: "Någon frågar \"När är du klar med doktoreringen då?\" Det korrekta svaret är:",
+        options: ["Ett exakt datum", "En lång suck", "\"Snart\"", "Byta samtalsämne"],
         correct: 2,
-        right: "Correct. \"Soon\" has been the answer since the beginning.",
-        wrong: "Incorrect. The accepted answer is \"soon\", repeated yearly.",
+        right: "Rätt. \"Snart\" har varit svaret sedan början.",
+        wrong: "Fel. Det godkända svaret är \"snart\", upprepat årligen.",
       },
       {
         q: "BYT UT: en personlig fråga som bara Allan kan svaret på.",
         options: ["BYT UT: svar 1", "BYT UT: svar 2", "BYT UT: svar 3"],
         correct: 0,
-        right: "Correct. The observers are impressed.",
-        wrong: "Incorrect. The observers remember it differently.",
+        right: "Rätt. Observatörerna är imponerade.",
+        wrong: "Fel. Observatörerna minns det annorlunda.",
       },
     ],
     results: [
-      { min: 0, title: "Result: Inconclusive", text: "The subject scored {score} of {quizTotal}. Further testing is recommended, preferably after coffee." },
-      { min: 3, title: "Result: Promising",    text: "The subject scored {score} of {quizTotal}. Adequate cognitive function detected." },
-      { min: 5, title: "Result: Exceptional",  text: "The subject scored {score} of {quizTotal}. The machine suspects he has seen the answers." },
+      { min: 0, title: "Resultat: Ofullständigt", text: "Försökspersonen fick {score} av {quizTotal}. Fortsatta tester rekommenderas, helst efter kaffe." },
+      { min: 3, title: "Resultat: Lovande",       text: "Försökspersonen fick {score} av {quizTotal}. Tillfredsställande kognitiv funktion påvisad." },
+      { min: 5, title: "Resultat: Exceptionellt", text: "Försökspersonen fick {score} av {quizTotal}. Maskinen misstänker att han har sett svaren." },
     ],
   },
 
   /* ------------------------------------------------------------------------
-     MOUSE RESEARCH — Dr. Pips egna studier
-     Fungerar precis som Archive: kopiera ett block för att lägga till.
+     MUSFORSKNING — Dr. Pips egna studier
+     Kopiera ett block för att lägga till en studie.
+       id    = kort beteckning som visas till vänster
+       title = rubriken
+       text  = ett eller flera stycken
      ------------------------------------------------------------------------ */
   mouse: [
     {
-      id: "STUDY 01",
-      title: "Cheese Allocation Under Uncertainty",
+      id: "STUDIE 01",
+      title: "Osttilldelning under osäkerhet",
       text: [
-        "Hypothesis: the subject will share his lunch with a mouse if the mouse looks sufficiently academic.",
-        "Method: I wore a very small lab coat.",
-        "Result: no cheese was obtained. However, the subject apologised to me, which no other human has done. Significance: p < 0.05, emotionally.",
+        "Hypotes: försökspersonen delar med sig av sin lunch till en mus om musen ser tillräckligt akademisk ut.",
+        "Metod: Jag bar en mycket liten labbrock.",
+        "Resultat: ingen ost erhölls. Däremot bad försökspersonen mig om ursäkt, vilket ingen annan människa har gjort. Signifikans: p < 0,05, känslomässigt.",
       ],
     },
     {
-      id: "STUDY 02",
-      title: "The Subject's Response to Deadlines",
+      id: "STUDIE 02",
+      title: "Försökspersonens respons på deadlines",
       text: [
-        "Over several years I recorded the subject's activity as a function of time remaining.",
-        "Finding: productivity follows an exponential curve. Ninety percent of the thesis was produced in the final ten percent of the time. The remaining ten percent was the acknowledgements.",
-        "I was not mentioned in the acknowledgements. I have noted this.",
+        "Under flera år registrerade jag försökspersonens aktivitet som en funktion av återstående tid.",
+        "Fynd: produktiviteten följer en exponentiell kurva. Nittio procent av avhandlingen skrevs under de sista tio procenten av tiden. De återstående tio procenten var tacksägelsen.",
+        "Jag nämndes inte i tacksägelsen. Det har jag noterat.",
       ],
     },
     {
-      id: "STUDY 03",
-      title: "On Being Observed",
+      id: "STUDIE 03",
+      title: "Om att bli observerad",
       text: [
-        "It is unusual for a mouse to publish on a human. Usually it is the other way round.",
-        "After many years in his laboratory I can report the following: he was careful. He was gentle when nobody was grading it. He said good morning to the cages.",
-        "Conclusion: of all the humans available for study, I would choose this one again.",
+        "Det är ovanligt att en mus publicerar sig om en människa. Oftast är det tvärtom.",
+        "Efter många år i hans laboratorium kan jag rapportera följande: han var noggrann. Han var varsam även när ingen bedömde det. Han sa god morgon till burarna.",
+        "Slutsats: av alla människor som finns att studera skulle jag välja den här igen.",
       ],
     },
   ],
 
   /* ------------------------------------------------------------------------
-     ESCAPE PROTOCOL — spelet (platshållare tills vidare)
+     FLYKTPROTOKOLL — spelet (platshållare tills vidare)
      ------------------------------------------------------------------------ */
   escape: {
-    title: "Escape Protocol",
+    title: "Flyktprotokoll",
     text: [
-      "CONTAINMENT EXERCISE: NOT YET CALIBRATED.",
-      "This module is under construction. The maze has been ordered, the cheese has been budgeted, and the mouse has been briefed.",
-      "Return later. The subject is not permitted to escape before the defence anyway.",
+      "INNESLUTNINGSÖVNING: ÄNNU EJ KALIBRERAD.",
+      "Modulen är under uppbyggnad. Labyrinten är beställd, osten är budgeterad och musen har fått sina instruktioner.",
+      "Kom tillbaka senare. Försökspersonen får ändå inte fly före disputationen.",
     ],
   },
 
   /* ------------------------------------------------------------------------
-     FINAL REPORT
+     SLUTRAPPORT
      Låses upp när 3 sektioner har besökts (antalet ändras i app.js).
      I texterna kan du använda:
        {visited}   = antal besökta sektioner
        {total}     = antal sektioner
-       {score}     = resultat i quizet (eller "not tested")
+       {score}     = resultat i quizet (eller "ej testad")
        {quizTotal} = antal quizfrågor
        {date}      = dagens datum
      verdict är de tre sista raderna och stamp är stämpelns text.
@@ -309,79 +250,79 @@ const CONTENT = {
   finalReport: {
     pages: [
       {
-        title: "Summary of Observation",
+        title: "Sammanfattning av observationen",
         text: [
-          "Report filed {date}.",
-          "After a longitudinal study spanning many years, the A.L.L.A.N. system has completed its observation of the subject. During this session {visited} of {total} records were reviewed. Cognitive assessment: {score}.",
-          "The data are noisy, the methods questionable and the sample size is one. The conclusions are nevertheless firm.",
+          "Rapporten upprättad {date}.",
+          "Efter en longitudinell studie som sträckt sig över många år har A.L.L.A.N.-systemet slutfört sin observation av försökspersonen. Under denna session granskades {visited} av {total} avsnitt. Kognitivt test: {score}.",
+          "Datan är brusig, metoderna tveksamma och urvalet består av en person. Slutsatserna är ändå fasta.",
         ],
       },
       {
-        title: "Findings",
+        title: "Fynd",
         text: [
-          "1. The subject asks good questions and listens to the answers.",
-          "2. The subject finishes what he starts, eventually.",
-          "3. The subject makes the people around him slightly better at being people.",
+          "1. Försökspersonen ställer bra frågor och lyssnar på svaren.",
+          "2. Försökspersonen gör klart det han påbörjar, till slut.",
+          "3. Försökspersonen gör människorna omkring sig lite bättre på att vara människor.",
           "[BYT UT: lägg till egna fynd, så många du vill.]",
         ],
       },
     ],
-    verdictTitle: "Conclusion",
+    verdictTitle: "Slutsats",
     verdict: [
-      "Excellent researcher.",
-      "Exceptional friend.",
-      "Further observation recommended.",
+      "Utmärkt forskare.",
+      "Enastående vän.",
+      "Fortsatt observation rekommenderas.",
     ],
-    stamp: "APPROVED",
+    stamp: "GODKÄND",
   },
 
   /* ------------------------------------------------------------------------
      STATUSPANELEN uppe till höger
-     states = orden som dyker upp efter STATE. act = orden efter ACT.
+     states = orden som dyker upp efter LÄGE. act = orden efter AKT.
      ------------------------------------------------------------------------ */
   status: {
-    states: ["curious", "focused", "caffeinated", "pondering", "amused", "suspicious", "hopeful", "peckish"],
-    act: ["low", "moderate", "high", "fidgeting"],
+    states: ["nyfiken", "fokuserad", "koffeinstinn", "grubblande", "road", "misstänksam", "hoppfull", "småhungrig"],
+    act: ["låg", "måttlig", "hög", "rastlös"],
   },
 
   /* ------------------------------------------------------------------------
-     DR. PIPS REPLIKER (loggen EXPERIMENTAL NOTES nere till vänster)
+     DR. PIPS REPLIKER (loggen nere till vänster)
      Varje lista är repliker för ett visst tillfälle. Programmet väljer en
      slumpvis. Lägg till hur många du vill, men håll dem korta: en replik
      på högst ca 100 tecken får plats på tre rader i loggen.
      ------------------------------------------------------------------------ */
   pip: {
-    boot:     ["Dr. Pip here. I have been taking notes on you for years."],
-    menu:     ["Pick a file. I have read them all. Twice.", "Use the stick. I would, but I have paws."],
-    archive:  ["The archive. Some of it is even true.", "I filed these myself. Alphabetically, by smell."],
-    audio:    ["Voices from the field. Turn it up.", "I am told my own recording was cut."],
-    profile:  ["Your profile. I rounded some numbers up.", "The measurements are accurate. Mostly."],
-    quiz:     ["An experiment. For once you are the mouse.", "Take your time. I am timing you."],
-    mouse:    ["My own research. Peer reviewed by me.", "Finally, some serious science."],
-    escape:   ["The maze is not ready. I ate part of it."],
-    final:    ["The report. I helped with the long words."],
+    boot:     ["Dr. Pip här. Jag har fört anteckningar om dig i flera år."],
+    menu:     ["Välj en akt. Jag har läst alla. Två gånger.", "Använd spaken. Jag skulle, men jag har tassar."],
+    archive:  ["Arkivet. En del av det är till och med sant.", "Jag har arkiverat allt själv. I bokstavsordning, efter lukt."],
+    audio:    ["Röster från fältet. Höj volymen.", "Jag har hört att min egen inspelning klipptes bort."],
+    profile:  ["Din profil. Jag avrundade vissa siffror uppåt.", "Mätningarna är korrekta. För det mesta."],
+    quiz:     ["Ett experiment. För en gångs skull är det du som är musen.", "Ta den tid du behöver. Jag tar tid på dig."],
+    mouse:    ["Min egen forskning. Granskad av mig.", "Äntligen lite seriös vetenskap."],
+    escape:   ["Labyrinten är inte klar. Jag åt upp en del av den."],
+    final:    ["Rapporten. Jag hjälpte till med de långa orden."],
     // När spelaren trycker C utan att något särskilt händer:
     talk: [
-      "Squeak. That is mouse for 'carry on'.",
-      "You have changed since the first cohort. Better hair.",
-      "I once ran a maze in four seconds. Nobody wrote a thesis about it.",
-      "Do you have any cheese? Asking for a colleague.",
-      "Glucose levels look fine. Have a bun.",
-      "You were always kind to the mice. We noticed.",
+      "Pip. Det betyder 'fortsätt' på musiska.",
+      "Du har förändrats sedan första kohorten. Bättre frisyr.",
+      "Jag sprang en gång igenom en labyrint på fyra sekunder. Ingen skrev en avhandling om det.",
+      "Har du någon ost? Jag frågar åt en kollega.",
+      "Glukosnivåerna ser bra ut. Ta en bulle.",
+      "Du var alltid snäll mot mössen. Vi märkte det.",
     ],
     idle: [
-      "Subject is staring at the screen. Noted.",
-      "Still there? I can wait. I am very small and very patient.",
-      "No input detected. Subject may be thinking. Or asleep.",
+      "Försökspersonen stirrar på skärmen. Noterat.",
+      "Är du kvar? Jag kan vänta. Jag är väldigt liten och väldigt tålmodig.",
+      "Ingen input registrerad. Försökspersonen kanske tänker. Eller sover.",
     ],
-    quizRight:    ["Correct. I am almost proud.", "Yes. Noted in your favour."],
-    quizWrong:    ["Wrong. I am writing that down.", "Hm. We will call that an outlier."],
-    quizDone:     ["Test complete. Results entered in the report."],
-    locked:       ["Not yet. Review {left} more section(s) first."],
-    unlocked:     ["Enough data collected. Final Report unlocked."],
-    finalDone:    ["That is the conclusion. I stand by every word."],
-    audioPlay:    ["Playing. Shh."],
-    audioMissing: ["That tape is missing. Check the audio folder."],
+    quizRight:    ["Rätt. Jag är nästan stolt.", "Ja. Noterat till din fördel."],
+    quizWrong:    ["Fel. Det skriver jag upp.", "Hm. Vi kallar det en avvikande observation."],
+    quizDone:     ["Testet är klart. Resultaten är införda i rapporten."],
+    locked:       ["Inte än. Granska {left} avsnitt till först."],
+    unlocked:     ["Tillräckligt med data insamlad. Slutrapporten är upplåst."],
+    finalDone:    ["Det är slutsatsen. Jag står för varje ord."],
+    audioPlay:    ["Spelar upp. Tyst nu."],
+    audioMissing: ["Den inspelningen saknas. Kolla mappen audio."],
   },
 
   /* ------------------------------------------------------------------------
@@ -392,9 +333,9 @@ const CONTENT = {
      sugar    = dyker upp slumpvis när GLU-värdet sticker iväg
      ------------------------------------------------------------------------ */
   eggs: {
-    cheese:  ["CHEESE MODE ENGAGED. You found it. I am so happy."],
-    annoyed: ["Squeak limit exceeded. I am a scientist, not a jukebox."],
-    noExit:  ["There is no exit. Only observation."],
-    sugar:   ["Glucose spike. Who gave the subject cinnamon buns?"],
+    cheese:  ["OSTLÄGE AKTIVERAT. Du hittade det. Jag är så glad."],
+    annoyed: ["Pipgränsen är överskriden. Jag är forskare, inte en jukebox."],
+    noExit:  ["Det finns ingen utgång. Bara observation."],
+    sugar:   ["Glukostopp. Vem gav försökspersonen kanelbullar?"],
   },
 };

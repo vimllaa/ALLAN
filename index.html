@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A.L.L.A.N. Research Terminal</title>
+  <title>A.L.L.A.N. Forskningsterminal</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -16,13 +16,13 @@
     <div class="cover" id="cover-clock"></div>
     <div class="cover" id="cover-status"></div>
 
-    <!-- Toppmenyn (egna versioner av bildens fem ord) -->
+    <!-- Toppmenyn (ersätter bildens OBSERVE · ANALYSE · CONNECT · DISCOVER) -->
     <nav id="topnav">
-      <span data-nav="archive">ARCHIVE</span><i>/</i>
+      <span data-nav="archive">ARKIV</span><i>/</i>
       <span data-nav="observation">OBSERVATION</span><i>/</i>
-      <span data-nav="audio">AUDIO</span><i>/</i>
-      <span data-nav="experiments">EXPERIMENTS</span><i>/</i>
-      <span data-nav="reports">REPORTS</span>
+      <span data-nav="audio">LJUD</span><i>/</i>
+      <span data-nav="experiments">EXPERIMENT</span><i>/</i>
+      <span data-nav="reports">RAPPORTER</span>
     </nav>
 
     <!-- Levande datum och klocka -->
@@ -30,11 +30,11 @@
 
     <!-- SUBJECT COHORT / STATUS -->
     <div id="status">
-      <div><b>HR</b><u></u><span id="st-hr"></span></div>
+      <div><b>PULS</b><u></u><span id="st-hr"></span></div>
       <div><b>TEMP</b><u></u><span id="st-temp"></span></div>
-      <div><b>ACT</b><u></u><span id="st-act"></span></div>
+      <div><b>AKT</b><u></u><span id="st-act"></span></div>
       <div><b>GLU</b><u></u><span id="st-glu"></span></div>
-      <div><b>STATE</b><u></u><span id="st-state"></span></div>
+      <div><b>LÄGE</b><u></u><span id="st-state"></span></div>
     </div>
 
     <!-- Stora mittenpanelen -->
@@ -44,21 +44,32 @@
       <footer id="main-pager"></footer>
     </main>
 
-    <!-- EXPERIMENTAL NOTES: Dr. Pips logg, en rad per M01–M08 -->
+    <!-- DR. PIP / OBSERVATION LOG: Dr. Pips logg, fem rader -->
     <div id="notes">
-      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      <div></div><div></div><div></div><div></div><div></div>
     </div>
+
+    <!-- Dr. Pips fluga och hatt på porträttet, syns bara i balkapitlet -->
+    <div id="pip-frack"><i class="hat"></i><i class="bow"></i></div>
 
     <!-- Bandet under mittenpanelen -->
     <div id="hints"></div>
     <div id="band-left"></div>
     <div id="band-right"></div>
 
+    <!-- Förstorad bild i Archive (tangenten A på en bild) -->
+    <div id="zoom" hidden></div>
+
+    <!-- Varningsruta före hemligstämplade dokument i Archive -->
+    <div id="alert" hidden></div>
+
     <!-- Felsökningsruta (tangenten D) -->
     <pre id="debug" hidden></pre>
   </div>
 
   <script src="js/content.js"></script>
+  <script src="js/archive.js"></script>
+  <script src="js/specimen.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

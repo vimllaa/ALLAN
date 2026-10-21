@@ -1,8 +1,9 @@
 /* ==========================================================================
    A.L.L.A.N. — utseende
-   Alla panelers läge anges i procent av bakgrundsbilden (1639×960 px),
+   Alla panelers läge anges i procent av bakgrundsbilden (1672×941 px),
    så de hamnar rätt oavsett skärmstorlek. Textstorlekar anges i px för en
-   scen på 1024×600; hela scenen skalas sedan av app.js.
+   scen på 1024×600; hela scenen skalas sedan av app.js. Bilden är 16:9 och
+   sträcks lite på höjden för att fylla 1024×600.
    ========================================================================== */
 
 @font-face { font-family: "Plex Mono"; font-weight: 400; src: url("../fonts/PlexMono-Regular.woff2") format("woff2"); }
@@ -46,25 +47,26 @@ html, body {
 #stage > * { position: absolute; }
 
 /* ---------- Täckpaneler ----------
-   Visar en tom bit av mittenpanelen ur samma bild, så att strukturen
-   stämmer med resten av bakgrunden. */
+   Döljer bildens toppmeny (OBSERVE · ANALYSE …), LAT/LON-raderna och
+   GLUCOSE/INSULIN-tabellen. Samma färg som ramen, med mjuka kanter. */
 .cover {
-  background: var(--bg) url("../images/background.png") -330px -190px / 1024px 600px no-repeat;
+  background: #0b1008;
+  box-shadow: 0 0 3px 2px #0b1008;
 }
-#cover-nav    { left: 36.0%;  top: 2.1%;   width: 34.2%; height: 3.5%; }
-#cover-clock  { left: 81.45%; top: 1.9%;   width: 7.65%; height: 4.0%; }
-#cover-status { left: 92.0%;  top: 11.25%; width: 5.75%; height: 10.4%; }
+#cover-nav    { left: 63.3%;  top: 0.75%;  width: 26.2%;  height: 2.6%; }
+#cover-clock  { left: 90.05%; top: 1.2%;   width: 6.35%;  height: 3.3%; }
+#cover-status { left: 88.15%; top: 62.35%; width: 10.2%;  height: 8.75%; }
 
 /* ---------- Toppmenyn ---------- */
 #topnav {
-  left: 36.0%; top: 2.1%; width: 34.2%; height: 3.5%;
+  left: 63.3%; top: 0.75%; width: 26.2%; height: 2.6%;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 7px;
-  font-size: 8.5px; letter-spacing: .16em;
+  padding: 0 3px;
+  font-size: 7.5px; letter-spacing: .1em;
   color: var(--brass-dim);
 }
 #topnav i { font-style: normal; opacity: .7; }
-#topnav span { padding: 2px 4px 1px; border-bottom: 1px solid transparent; }
+#topnav span { padding: 1px 1px 0; border-bottom: 1px solid transparent; }
 #topnav span.on {
   color: var(--pale);
   border-bottom-color: var(--pale);
@@ -73,30 +75,33 @@ html, body {
 
 /* ---------- Klockan ---------- */
 #clock {
-  left: 81.45%; top: 1.9%; width: 7.65%; height: 4.0%;
-  padding-left: 8px;
+  left: 90.05%; top: 1.2%; width: 6.35%; height: 3.3%;
+  padding-left: 1px;
   display: flex; flex-direction: column; justify-content: center;
-  font-size: 8.5px; line-height: 11.5px; letter-spacing: .14em;
+  font-size: 7.5px; line-height: 9.5px; letter-spacing: .1em;
   color: var(--brass);
   white-space: nowrap;
 }
 
 /* ---------- SUBJECT COHORT / STATUS ---------- */
 #status {
-  left: 78.4%; top: 11.45%; width: 19.2%; height: 10.0%;
+  left: 88.4%; top: 62.5%; width: 9.8%; height: 8.5%;
   display: flex; flex-direction: column;
-  font-size: 9px; letter-spacing: .1em;
+  font-size: 7px; letter-spacing: .08em;
 }
-#status div { flex: 1; display: flex; align-items: center; gap: 5px; }
+#status div { flex: 1; display: flex; align-items: center; gap: 3px; white-space: nowrap; }
 #status b { font-weight: 500; color: var(--brass); }
 #status u { flex: 1; border-bottom: 1px dotted var(--brass-faint); transform: translateY(2px); }
 #status span { color: var(--pale); }
 
 /* ---------- Mittenpanelen ---------- */
 #main {
-  left: 30.2%; top: 27.7%; width: 43.8%; height: 47.5%;
+  left: 15.7%; top: 12.6%; width: 69.5%; height: 69.2%;
   display: flex; flex-direction: column;
 }
+/* Panelen är mycket större än i den gamla bilden: förstora innehållet
+   i stället för att ändra alla mått nedan. */
+#main > * { zoom: 1.3; }
 #main header {
   flex: none; height: 27px;
   display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
@@ -215,11 +220,195 @@ html, body {
 }
 @keyframes stamp { from { opacity: 0; transform: rotate(-11deg) scale(3); } to { opacity: .92; transform: rotate(-11deg) scale(1); } }
 
+/* Archive: kapitellistan använder .menu; här är raden under listan */
+.menu-desc .small { display: block; margin-top: 3px; font-size: 8.5px; }
+
+/* Archive: bildram (används för foton, bilder i inlägg och förstoringen) */
+.frame {
+  position: relative; min-height: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3px;
+  border: 1px solid var(--brass-faint);
+  background: rgba(0, 0, 0, .25);
+}
+.frame img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: sepia(.18) contrast(1.04); }
+.frame.missing img { display: none; }
+.frame.missing::after {
+  content: "FOTOGRAFI SAKNAS\A" attr(data-src);
+  white-space: pre; text-align: center;
+  font-size: 8.5px; line-height: 14px; letter-spacing: .14em; color: var(--brass-dim);
+}
+
+/* Archive: fotografi */
+.exhibit-img { height: 100%; display: flex; flex-direction: column; gap: 5px; }
+.exhibit-img .frame { flex: 1; }
+.exhibit-img figcaption {
+  flex: none; max-height: 34px; overflow: hidden;
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: 14px; line-height: 17px; color: var(--pale); text-align: center;
+}
+
+/* Archive: text med bild bredvid */
+.text.beside { width: 55%; }
+.text-img { height: 100%; display: flex; gap: 14px; }
+.text-img .text { flex: none; }
+.text-img .frame { flex: 1; }
+
+/* Archive: Dr. Pips fältanteckning */
+.pip-note { padding: 0 12px 0 10px; border-left: 2px solid var(--brass); }
+.pip-note::before {
+  content: "FÄLTANTECKNING — DR. PIP, LABORATORIEMUS";
+  display: block; margin-bottom: 7px;
+  font-size: 8.5px; letter-spacing: .16em; color: var(--brass-dim);
+}
+.pip-note p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 15.5px; line-height: 19px; color: var(--pale); }
+
+/* Archive: återfunnen konversation */
+.chat { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 0 4px; }
+.msg { max-width: 76%; }
+.msg.same { margin-top: -3px; }
+.msg.same .msg-from { display: none; }
+/* Första meddelandet på en ny sida visar alltid namnet */
+.chat > .msg.same:first-child { margin-top: 0; }
+.chat > .msg.same:first-child .msg-from { display: block; }
+.msg-from { margin-bottom: 2px; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass-dim); }
+.msg-text {
+  padding: 4px 8px 5px;
+  border: 1px solid var(--brass-faint); border-radius: 2px 8px 8px 8px;
+  font-size: 11.5px; line-height: 15px; color: var(--text);
+}
+.msg.me { align-self: flex-end; text-align: right; }
+.msg.me .msg-text { border-color: var(--brass-dim); border-radius: 8px 2px 8px 8px; background: rgba(198, 167, 105, .1); color: var(--pale); text-align: left; }
+
+/* Archive: arkiverat inlägg */
+.post { padding: 7px 10px 6px; border: 1px solid var(--brass-faint); background: rgba(0, 0, 0, .2); }
+.post > * + * { margin-top: 6px; }
+.post-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.post-head b { font-weight: 500; font-size: 11.5px; color: var(--pale); }
+.post-head span { font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass-dim); }
+.post-text { font-size: 12px; line-height: 17px; }
+.post-img .frame { height: 112px; }
+.post-stats { padding-top: 4px; border-top: 1px dotted var(--brass-faint); font-size: 8.5px; letter-spacing: .14em; color: var(--brass-dim); }
+.post-comment { font-size: 11px; line-height: 15px; color: var(--brass); }
+.post-comment b { margin-right: 6px; font-weight: 500; color: var(--pale); }
+
+/* Archive: förstorad bild över hela skärmen */
+#zoom {
+  inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 18px 30px 12px;
+  background:
+    linear-gradient(rgba(198, 167, 105, .05) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(198, 167, 105, .05) 1px, transparent 1px) 0 0 / 24px 24px,
+    rgba(8, 10, 6, .97);
+}
+#zoom[hidden] { display: none; }
+#zoom .frame { flex: 1; width: 100%; border-color: var(--brass-dim); }
+#zoom p { flex: none; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 18px; line-height: 22px; color: var(--pale); text-align: center; }
+
+/* Archive: förstoring i flera steg */
+#zoom .frame { overflow: hidden; }
+#zoom .frame img, #zoom .doc { transition: transform .25s ease-out; }
+
+/* ---------- Archive: hemligstämplade dokument ---------- */
+/* Stämpeln över dokumenten */
+.classified {
+  position: absolute; left: -5%; top: 5%;
+  padding: 3px 9px 2px;
+  border: 2.5px double var(--stamp); border-radius: 3px;
+  font-size: 12px; font-weight: 500; letter-spacing: .2em; color: var(--stamp);
+  background: rgba(192, 87, 61, .06);
+  white-space: nowrap; pointer-events: none;
+  transform: rotate(-13deg);
+  opacity: 0; animation: classified .3s cubic-bezier(.2, 1.4, .5, 1) .45s forwards;
+}
+.classified.big { position: static; display: inline-block; align-self: center; margin-top: auto; font-size: 14px; }
+@keyframes classified { from { opacity: 0; transform: rotate(-13deg) scale(2.6); } to { opacity: .88; transform: rotate(-13deg) scale(1); } }
+
+/* Svart censurstapel, i bilden och i avskriften */
+.redact-box { position: absolute; background: #0a0a08; transform: rotate(-.6deg); }
+.redact { background: #050504; color: transparent; border-radius: 1px; box-shadow: 0 0 0 1px var(--brass-faint); }
+
+/* Försättsbladet */
+.dossier { height: 100%; display: flex; gap: 16px; }
+.dossier-main { flex: 1; min-width: 0; }
+.dossier-head { font-size: 8.5px; letter-spacing: .2em; color: var(--stamp); }
+.dossier h2 {
+  margin: 2px 0 8px;
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 19px; line-height: 22px; color: var(--pale);
+}
+.dossier .text p { font-size: 11px; line-height: 15.5px; }
+.dossier .text p + p { margin-top: 6px; }
+.dossier-side {
+  flex: none; width: 31%;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 8px 10px 14px;
+  border: 1px solid var(--brass-faint);
+  background: repeating-linear-gradient(-45deg, rgba(198, 167, 105, .035) 0 6px, transparent 6px 12px);
+}
+.dossier-side ul { list-style: none; }
+.dossier-side li { padding: 4px 0; border-bottom: 1px dotted var(--brass-faint); font-size: 10.5px; color: var(--pale); }
+.dossier-side li b { display: block; font-weight: 500; font-size: 8px; letter-spacing: .16em; color: var(--brass-dim); }
+
+/* Ett uppslag: dokumentet till vänster, bedömning och avskrift till höger */
+.doc-page { height: 100%; display: flex; gap: 14px; }
+.doc-frame { flex: none; height: 100%; padding: 3px; background: rgba(0, 0, 0, .35); }
+.doc { position: relative; height: 100%; max-width: 100%; }
+.doc img { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
+.doc-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.doc-verdict { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 15px; line-height: 18px; color: var(--pale); }
+.doc-findings { list-style: none; }
+.doc-findings li { padding: 2px 0 2px 10px; position: relative; font-size: 9.5px; line-height: 12px; color: var(--brass); }
+.doc-findings li::before { content: "›"; position: absolute; left: 0; color: var(--brass-dim); }
+.doc-side > .small { margin-top: 2px; padding-bottom: 2px; border-bottom: 1px solid var(--brass-faint); font-size: 8px; }
+.doc-transcript { flex: 1; min-height: 0; overflow: hidden; }
+.transcript p { font-size: 9.5px; line-height: 13px; color: var(--text); }
+.transcript p + p { margin-top: 5px; }
+
+/* Mätaren för socialt inflytande */
+.meter { display: flex; align-items: center; gap: 7px; font-size: 8px; letter-spacing: .14em; color: var(--brass-dim); white-space: nowrap; }
+.meter-bar { display: inline-flex; gap: 2px; }
+.meter-bar i { width: 16px; height: 7px; border: 1px solid var(--brass-dim); }
+.meter-bar i.on { animation: fill .3s ease-out forwards; }
+.meter b { font-weight: 500; color: var(--pale); }
+@keyframes fill { to { background: var(--pale); border-color: var(--pale); box-shadow: 0 0 5px rgba(234, 217, 173, .5); } }
+
+/* Jämförande analys */
+.compare td { vertical-align: middle; }
+.compare tr:first-child td { padding-top: 0; font-size: 8px; letter-spacing: .14em; color: var(--brass-dim); }
+.rows.compare td:first-child { width: 12%; }
+.compare .meter span:first-child { display: none; }
+.text.conclusion { margin-top: 12px; }
+.text.conclusion p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 15px; line-height: 19px; color: var(--pale); }
+
+/* Varningsrutan */
+#alert {
+  inset: 0; z-index: 6;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(4, 5, 3, .72);
+}
+#alert[hidden] { display: none; }
+.alert-box {
+  width: 360px; padding: 14px 18px 12px;
+  border: 1px solid var(--stamp); outline: 1px solid rgba(192, 87, 61, .35); outline-offset: 3px;
+  background: #0d0f09;
+  text-align: center;
+  animation: rise .35s ease-out;
+}
+.alert-head {
+  margin-bottom: 8px;
+  font-size: 13px; font-weight: 500; letter-spacing: .4em; color: var(--stamp);
+  animation: blink 1s steps(2) infinite;
+}
+.alert-box p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 16px; line-height: 20px; color: var(--pale); }
+.alert-box .small { margin-top: 10px; font-size: 8.5px; }
+
 /* ---------- EXPERIMENTAL NOTES ---------- */
 #notes {
-  left: 3.3%; top: 72.32%; width: 20.1%; height: 14.64%;
+  left: 29.6%; top: 85.7%; width: 27.6%; height: 10%;
   display: flex; flex-direction: column;
-  font-size: 9.5px; letter-spacing: 0;
+  font-size: 9px; letter-spacing: 0;
 }
 #notes div { flex: 1; display: flex; align-items: center; white-space: pre; overflow: hidden; color: var(--brass-dim); }
 #notes div.new { color: var(--pale); }
@@ -227,9 +416,9 @@ html, body {
 
 /* ---------- Bandet under mittenpanelen ---------- */
 #hints {
-  left: 28.55%; top: 78.55%; width: 47.4%; height: 4.25%;
-  display: flex; align-items: center; justify-content: center; gap: 20px;
-  font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass);
+  left: 61.6%; top: 84.4%; width: 21.6%; height: 3.2%;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--brass);
   white-space: nowrap;
 }
 #hints span { display: inline-flex; align-items: center; gap: 6px; }
@@ -241,13 +430,13 @@ html, body {
 }
 #hints kbd.hit { background: var(--pale); border-color: var(--pale); color: var(--bg); }
 #band-left, #band-right {
-  top: 83.9%; height: 4.6%;
-  display: flex; flex-direction: column; justify-content: center;
+  top: 89.2%; height: 2.6%;
+  display: flex; align-items: center; gap: 6px;
   font-size: 8px; line-height: 11px; letter-spacing: .14em; color: var(--brass-dim);
   white-space: nowrap;
 }
-#band-left  { left: 28.9%; width: 6.2%; }
-#band-right { left: 65.7%; width: 10.2%; text-align: right; }
+#band-left  { left: 62.2%;  width: 9%; }
+#band-right { left: 71.6%;  width: 10.8%; justify-content: flex-end; }
 #band-left b, #band-right b { font-weight: 500; color: var(--pale); }
 
 /* ---------- Felsökningsruta ---------- */
@@ -260,3 +449,635 @@ html, body {
 
 /* Easter egg: ostläge */
 #stage.cheese { filter: saturate(1.6) hue-rotate(-8deg) brightness(1.12); transition: filter .6s; }
+
+/* ---------- Archive: återfunnen kriskommunikation ---------- */
+/* Krismätaren överst: upplevd krisnivå mot faktisk betydelse */
+.crisis { height: 100%; display: flex; flex-direction: column; gap: 6px; }
+.crisis-bar {
+  flex: none; display: flex; justify-content: space-between; gap: 10px;
+  padding: 3px 6px; border: 1px solid var(--brass-faint);
+  background: repeating-linear-gradient(-45deg, rgba(192, 87, 61, .05) 0 6px, transparent 6px 12px);
+}
+.crisis-bar .meter-bar i { width: 11px; }
+.crisis-bar .meter:first-child .meter-bar i.on { animation-name: alarm; }
+@keyframes alarm { to { background: var(--stamp); border-color: var(--stamp); box-shadow: 0 0 5px rgba(192, 87, 61, .6); } }
+.crisis-bar .meter:first-child b { color: var(--stamp); }
+
+/* Chatten till vänster, marginalen till höger */
+.crisis-body { flex: 1; min-height: 0; display: flex; gap: 12px; }
+.crisis-chat { flex: 1; min-width: 0; padding: 0; }
+.crisis-chat .msg { max-width: 92%; }
+.crisis-chat .msg-text { font-size: 10.5px; line-height: 14px; }
+.crisis-notes {
+  flex: none; width: 38%;
+  display: flex; flex-direction: column; gap: 6px;
+  padding-left: 10px; border-left: 1px dashed var(--brass-faint);
+}
+.crisis-notes > .small { font-size: 8px; padding-bottom: 2px; border-bottom: 1px solid var(--brass-faint); }
+
+/* Markeringen i texten: överstrykningspenna som dras fram */
+.crisis mark { background: none; color: inherit; }
+.crisis mark sup { display: none; margin-right: 1px; font-size: 7px; font-weight: 500; color: var(--stamp); }
+.crisis mark.shown {
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  color: var(--pale);
+  background: linear-gradient(transparent 55%, rgba(192, 87, 61, .45) 55%) no-repeat 0 0 / 100% 100%;
+}
+.crisis mark.shown sup { display: inline; }
+.crisis mark.fresh { animation: pen .5s ease-out; }
+@keyframes pen { from { background-size: 0 100%; } }
+
+/* Dr. Pips anteckningar */
+.anno { display: none; gap: 6px; align-items: flex-start; }
+.anno.shown { display: flex; }
+.anno.fresh { animation: rise .45s ease-out; }
+.anno b {
+  flex: none; width: 13px; height: 13px; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--stamp); border-radius: 50%;
+  font-size: 7.5px; font-weight: 500; color: var(--stamp);
+}
+.anno p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13.5px; line-height: 15.5px; color: var(--pale); }
+.anno-wait { margin-top: auto; text-align: right; font-size: 8px; animation: blink 1.2s steps(2) infinite; }
+.done .anno-wait { display: none; }
+
+/* Slutsatsen, med stämpel när man trycker A */
+.crisis-end { position: relative; height: 100%; }
+.crisis-end .compare td { padding-top: 3px; padding-bottom: 3px; font-size: 10px; }
+.crisis-end .compare .meter-bar i { width: 11px; }
+.crisis-end .compare .meter-bar i.on { animation-name: alarm; }
+.crisis-end .text.conclusion { margin-top: 8px; }
+.crisis-end .text.conclusion p { font-size: 14px; line-height: 17.5px; }
+.crisis-end .text.conclusion p + p { margin-top: 4px; }
+.crisis-stamp { display: none; right: 14px; bottom: 22px; animation-delay: 0s; opacity: .92; }
+.crisis-stamp.shown { display: block; }
+.crisis-stamp.fresh { opacity: 0; animation-delay: .1s; }
+.crisis-stamp.shown:not(.fresh) { animation: none; }
+.started .meter-bar i.on { animation: none; background: var(--stamp); border-color: var(--stamp); box-shadow: 0 0 5px rgba(192, 87, 61, .6); }
+
+/* Försättsbladet som mötesprotokoll i stället för hemligstämplat */
+.protocol .dossier-head { color: var(--brass); }
+.protocol .dossier-side { background: rgba(0, 0, 0, .18); }
+.protocol .dossier-side ol { list-style: none; }
+.protocol .dossier-side li { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px dotted var(--brass-faint); font-size: 10.5px; line-height: 13px; color: var(--pale); }
+.protocol .dossier-side li b { flex: none; width: 24px; white-space: nowrap; font-weight: 500; font-size: 9px; color: var(--brass-dim); }
+.protocol-status {
+  margin-top: auto; padding-top: 6px; border-top: 1px solid var(--brass-faint);
+  font-size: 8.5px; line-height: 12px; letter-spacing: .14em; color: var(--stamp);
+  animation: blink 1.6s steps(2) infinite;
+}
+.protocol-decision { margin-top: 8px; font-size: 10.5px; line-height: 14px; color: var(--pale); }
+.protocol-decision b { margin-right: 8px; font-weight: 500; font-size: 8.5px; letter-spacing: .16em; color: var(--stamp); }
+
+/* ---------- Archive: mapp före ett nytt avsnitt ---------- */
+.folder-page { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; perspective: 900px; }
+.folder { position: relative; width: 310px; height: 196px; transform: rotate(-2.5deg); animation: rise .5s ease-out; }
+.folder > * { position: absolute; }
+.folder-back {
+  inset: 14px 0 0 0;
+  background: #8d6c42; border-radius: 0 4px 4px 4px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .55);
+}
+.folder-tab {
+  position: absolute; left: 0; top: -14px; height: 15px; width: 112px; z-index: 1;
+  padding: 3px 10px 0;
+  background: #8d6c42; border-radius: 4px 10px 0 0;
+  font-size: 7.5px; font-weight: 500; letter-spacing: .16em; color: #2a2012;
+}
+.folder-paper { left: 12px; right: 18px; top: 18px; bottom: 10px; background: #e6dcc3; transform: rotate(1.2deg); box-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
+.folder-paper.two { left: 20px; right: 10px; top: 21px; background: #d9cdb0; transform: rotate(-1.8deg); }
+.folder-front {
+  left: 0; right: 0; top: 30px; bottom: 0;
+  background:
+    radial-gradient(circle at 82% 70%, transparent 21px, rgba(70, 45, 15, .22) 22px, transparent 25px),
+    radial-gradient(ellipse at 30% 20%, rgba(255, 240, 200, .14), transparent 60%),
+    #b48d59;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 rgba(255, 240, 200, .25) inset, 0 4px 10px rgba(0, 0, 0, .35);
+  transform-origin: 50% 0;
+}
+.folder-label {
+  position: absolute; left: 22px; top: 22px; width: 190px;
+  padding: 6px 9px 7px;
+  background: #efe7d2; transform: rotate(-1deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  color: #2a2012;
+}
+.folder-label small { display: block; font-size: 6.5px; letter-spacing: .16em; color: #6b5636; }
+.folder-label b { display: block; margin: 2px 0 1px; font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 17px; line-height: 19px; }
+.folder-label span { display: block; font-size: 7px; letter-spacing: .12em; color: #6b5636; text-transform: uppercase; }
+.folder-stamp {
+  position: absolute; right: 16px; top: 26px;
+  padding: 2px 7px 1px;
+  border: 2px solid rgba(150, 50, 30, .75); border-radius: 3px;
+  font-size: 8px; font-weight: 500; letter-spacing: .18em; color: rgba(150, 50, 30, .8);
+  transform: rotate(8deg);
+}
+.folder-note {
+  position: absolute; left: 26px; bottom: 16px;
+  font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 14px; color: #3b2a14;
+  transform: rotate(-3deg);
+}
+.folder-hint { font-size: 8.5px; animation: blink 1.4s steps(2) infinite; }
+
+/* Uppslagen: framsidan fälls upp och papperen glider fram */
+.folder.shown { animation: none; }
+.folder.shown .folder-front { transform: perspective(700px) rotateX(-165deg); opacity: 0; }
+.folder.shown .folder-paper { transform: translateY(-6px) rotate(.5deg); }
+.folder.shown.fresh .folder-front { animation: fold .75s cubic-bezier(.4, 0, .2, 1); }
+.folder.shown.fresh .folder-paper { animation: slide .6s ease-out; }
+.folder.shown ~ .folder-hint { visibility: hidden; }
+@keyframes fold { from { transform: perspective(700px) rotateX(0); opacity: 1; } 55% { opacity: 1; } }
+@keyframes slide { from { transform: none; } }
+
+/* Val i varningsrutan och säkerhetsfrågan (1 · X · 2) */
+.alert-box.choice { width: 380px; }
+.alert-box.still { animation: none; }
+.alert-box.choice.shake { animation: shake .4s ease-out; }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.choice ul { list-style: none; margin-top: 10px; text-align: left; }
+.choice li {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 4px; padding: 4px 8px;
+  border: 1px solid var(--brass-faint);
+  font-size: 11px; color: var(--text);
+}
+.choice li b {
+  flex: none; width: 17px; height: 17px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--brass-dim); border-radius: 50%;
+  font-size: 9px; font-weight: 500; color: var(--pale);
+}
+.choice li.sel { border-color: var(--pale); background: rgba(198, 167, 105, .12); color: var(--pale); }
+.choice li.wrong { color: var(--stamp); text-decoration: line-through; border-color: rgba(192, 87, 61, .5); }
+.choice li.wrong b { border-color: var(--stamp); color: var(--stamp); }
+.choice li.right { border-color: var(--pale); background: var(--pale); color: var(--bg); }
+.choice li.right b { border-color: var(--bg); color: var(--bg); }
+.choice .alert-head.ok { color: var(--pale); animation: none; text-shadow: 0 0 6px rgba(234, 217, 173, .55); }
+
+/* ---------- Archive: kapitelomslag ---------- */
+.cover-page { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cover-head { flex: none; text-align: center; }
+.cover-head .dossier-head { color: var(--brass-dim); }
+.cover-head h2 {
+  margin-top: 2px;
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 22px; line-height: 25px; color: var(--pale);
+}
+.cover-art { position: relative; flex: 1; min-height: 0; margin-top: 4px; display: flex; align-items: flex-end; justify-content: center; }
+.cover-art img {
+  position: relative; display: block; max-width: 100%; max-height: 100%;
+  filter: grayscale(.85) sepia(.5) brightness(.32) contrast(1.15);
+}
+.cover-glow {
+  position: absolute; left: 10%; right: 10%; top: 25%; bottom: -6%;
+  background: radial-gradient(ellipse at 50% 70%, rgba(255, 196, 110, .38), transparent 68%);
+  opacity: 0;
+}
+.cover-text {
+  flex: none; margin-top: 6px; text-align: center;
+  font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13.5px; line-height: 16px; color: var(--brass);
+}
+
+/* Ljusen tänds */
+.cover-page.shown .cover-art img { filter: sepia(.12) saturate(1.05) drop-shadow(0 0 14px rgba(255, 196, 110, .35)); }
+.cover-page.shown .cover-glow { opacity: 1; }
+.cover-page.shown .cover-text { color: var(--pale); }
+.cover-page.fresh .cover-art img { animation: lightsOn 1.8s ease-out; }
+.cover-page.fresh .cover-glow { animation: glowIn 2.4s ease-out; }
+@keyframes lightsOn {
+  0%   { filter: grayscale(.85) sepia(.5) brightness(.32) contrast(1.15); }
+  12%  { filter: grayscale(.6) sepia(.4) brightness(.7) contrast(1.1); }
+  20%  { filter: grayscale(.85) sepia(.5) brightness(.36) contrast(1.15); }
+  30%  { filter: grayscale(.4) sepia(.3) brightness(.85); }
+  100% { filter: sepia(.12) saturate(1.05) drop-shadow(0 0 14px rgba(255, 196, 110, .35)); }
+}
+@keyframes glowIn { 0%, 25% { opacity: 0; } }
+
+/* Upplysta fönster och dansare (cover.windows) */
+.cover-art { container-type: size; }
+.cover-scene { position: relative; width: min(100cqw, 100cqh * var(--ar)); aspect-ratio: var(--ar); line-height: 0; }
+/* Här går det tvärtom: bilden står i dagsljus och A låter kvällen falla */
+.cover-scene img,
+.cover-page.shown .cover-scene img { width: 100%; height: 100%; max-height: none; filter: sepia(.12) saturate(1.05); animation: none; }
+.cover-page.shown .cover-scene img { filter: sepia(.12) saturate(.8) brightness(.55); }
+.cover-page.fresh .cover-scene img { animation: dusk 3s ease-in-out both; }
+@keyframes dusk { from { filter: sepia(.12) saturate(1.05); } }
+/* Kvällsmörker, maskat med bilden så att bara byggnaden mörknar */
+.cover-night {
+  position: absolute; inset: 0; background: #0b1640; mix-blend-mode: multiply; opacity: 0;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+}
+.cover-page.shown .cover-night { opacity: .85; }
+.cover-page.fresh .cover-night { animation: winOn 3s ease-in-out both; }
+.win { position: absolute; overflow: hidden; border-radius: 1px; }
+.win.arch { border-radius: 50% 50% 1px 1px / 32% 32% 1px 1px; }
+.win .light {
+  position: absolute; inset: 0; opacity: 0;
+  background: radial-gradient(ellipse at 50% 75%, #fff3cc, #ffcf73 55%, #d9822a);
+}
+/* Spröjsar ovanpå ljus och dansare */
+.win::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(60, 30, 10, .6) 46% 54%, transparent 54%),
+    linear-gradient(transparent 62%, rgba(60, 30, 10, .6) 62% 66%, transparent 66%);
+}
+.cover-page.shown .win .light { opacity: 1; }
+.cover-page.shown .win.flicker .light { animation: winFlicker 4s infinite; }
+.cover-page.shown .win.blink .light { animation: winBlink var(--b) infinite; }
+.cover-page.fresh .win .light { animation: winOn .7s ease var(--d) both; }
+.cover-page.fresh .win.flicker .light { animation: winOn .7s ease var(--d) both, winFlicker 4s calc(var(--d) + .7s) infinite; }
+.cover-page.fresh .win.blink .light { animation: winOn .7s ease var(--d) both, winBlink var(--b) calc(var(--d) + .7s) infinite; }
+@keyframes winOn { from { opacity: 0; } }
+@keyframes winFlicker { 0%, 42%, 46%, 100% { opacity: 1; } 44% { opacity: .55; } 70% { opacity: .85; } }
+@keyframes winBlink { 0%, 60%, 100% { opacity: 1; } 62%, 92% { opacity: 0; } }
+
+.dancer { position: absolute; left: 12%; width: 76%; bottom: -6%; height: 88%; color: rgba(45, 20, 5, .82); transform-origin: 50% 100%; }
+.dancer svg { display: block; width: 100%; height: 100%; overflow: visible; fill: currentColor; }
+.dancer .arm { transform-box: fill-box; transform-origin: 50% 0; }
+/* Dansarna rör sig bara när ljuset är tänt (sparar kraft på Pi:n) */
+.cover-page.shown .dancer { animation: danceBob var(--bob) ease-in-out infinite alternate, danceSway var(--sway) ease-in-out infinite alternate; }
+.cover-page.shown .dancer .arm { animation: danceWave var(--wave) ease-in-out infinite alternate; }
+.cover-page.shown .dancer .arm.r { animation-delay: calc(var(--wave) * -.5); }
+/* Första gången börjar varje dansare när just hens fönster tänds */
+.cover-page.fresh .dancer,
+.cover-page.fresh .dancer .arm { animation-delay: var(--d); }
+.cover-page.fresh .dancer .arm.r { animation-delay: calc(var(--d) - var(--wave) * .5); }
+@keyframes danceBob { to { translate: 0 -10%; } }
+
+/* Tydlig uppmaning på himlen som försvinner när A har tryckts */
+.cover-cta {
+  position: absolute; left: 72%; top: 6%; transform: translateX(-50%); z-index: 3;
+  display: flex; align-items: center; gap: 8px; line-height: 1; white-space: nowrap;
+  font: 500 13px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--pale);
+  text-shadow: 0 0 8px rgba(255, 196, 110, .6);
+  animation: ctaPulse 1.6s ease-in-out infinite alternate;
+  transition: opacity .6s;
+}
+.cover-cta kbd {
+  display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border: 1px solid var(--pale); border-radius: 50%;
+  font: 500 12px var(--mono); letter-spacing: 0;
+  box-shadow: 0 0 10px rgba(255, 196, 110, .5);
+}
+.cover-page.shown .cover-cta { opacity: 0; animation: none; }
+@keyframes ctaPulse { from { opacity: .55; } }
+
+/* Fyrverkerier (cover.fireworks) */
+.fw { position: absolute; width: 0; height: 0; z-index: 2; }
+.fw b {
+  position: absolute; left: -1px; top: -5px; width: 2px; height: 10px; border-radius: 1px; opacity: 0;
+  background: linear-gradient(var(--c), transparent);
+  box-shadow: 0 0 4px var(--c);
+}
+.cover-page.shown .fw b { animation: spark var(--fp) ease-out var(--fd) infinite; }
+.cover-page.fresh .fw b { animation-delay: calc(var(--fd) + 3.5s); }
+@keyframes spark {
+  0%       { transform: rotate(var(--a)) translateY(0) scaleY(.3); opacity: 0; }
+  4%       { opacity: 1; }
+  35%      { transform: rotate(var(--a)) translateY(-30px) scaleY(1); opacity: .9; }
+  55%, 100% { transform: rotate(var(--a)) translateY(-38px) scaleY(.5); opacity: 0; }
+}
+@keyframes danceSway { from { rotate: -9deg; } to { rotate: 9deg; } }
+@keyframes danceWave { from { rotate: 25deg; } to { rotate: 165deg; } }
+
+/* ---------- Archive: fotoalbum ---------- */
+.polaroid {
+  position: relative; margin: 0;
+  padding: 5px 5px 18px;
+  background: #e9e0c9;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .55);
+}
+.polaroid .frame { padding: 0; border: none; background: #1a1712; height: 100%; }
+.polaroid .frame img { filter: sepia(.12) contrast(1.03); }
+.polaroid .frame.missing::after { color: #6b5636; font-size: 7px; line-height: 11px; }
+.photo-stamp {
+  position: absolute; right: 12px; bottom: 23px;
+  font: 500 10px var(--mono); letter-spacing: .08em; color: #ff9a3c;
+  text-shadow: 0 0 4px rgba(255, 130, 40, .8);
+}
+
+/* Uppslaget med texten och bilderna utspridda */
+.album-intro { height: 100%; display: flex; gap: 14px; }
+.album-text { flex: none; width: 52%; }
+.album-text .dossier-head { margin-bottom: 6px; color: var(--brass-dim); }
+.album-text .text p { font-size: 11px; line-height: 15.5px; }
+.album-text .text p + p { margin-top: 6px; }
+.album-collage { position: relative; flex: 1; }
+.album-collage .polaroid { position: absolute; width: 62%; height: 52%; }
+.album-collage .c1 { left: 2%;  top: 2%;  transform: rotate(-6deg); }
+.album-collage .c2 { right: 0;  top: 24%; transform: rotate(5deg); }
+.album-collage .c3 { left: 10%; bottom: 0; transform: rotate(-2deg); }
+
+/* En sida per bild */
+.album-page { height: 100%; display: flex; gap: 16px; padding: 2px 0 4px 6px; }
+.polaroid.big { flex: none; width: 62%; height: 100%; transform: rotate(-1.2deg); }
+.album-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.album-side > .small { font-size: 8px; padding-bottom: 2px; border-bottom: 1px solid var(--brass-faint); }
+.album-caption { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 15px; line-height: 18px; color: var(--pale); }
+.album-thumbs { margin-top: auto; display: flex; gap: 4px; }
+.album-thumbs i { width: 14px; height: 10px; border: 1px solid var(--brass-dim); }
+.album-thumbs i.on { background: var(--pale); border-color: var(--pale); }
+
+/* Efterfesten: himlen går från natt till soluppgång */
+.sky { display: flex; align-items: center; gap: 6px; font-size: 7px; letter-spacing: .14em; color: var(--brass-dim); }
+.sky-bar { position: relative; flex: 1; height: 6px; background: linear-gradient(90deg, #0c1530, #33285a 40%, #c0573d 75%, #f3c76a); }
+.sky-bar i { position: absolute; top: -4px; width: 2px; height: 14px; margin-left: -1px; background: var(--pale); box-shadow: 0 0 5px var(--pale); }
+
+/* ---------- Dr. Pip i frack (balkapitlet) ---------- */
+#pip-frack { display: none; left: 17.13%; top: 0; width: 0; height: 100%; pointer-events: none; }
+#stage.frack #pip-frack { display: block; }
+#pip-frack i { position: absolute; display: block; }
+#pip-frack .hat {
+  left: -7px; top: calc(87.2% - 8px); width: 15px; height: 12px;
+  background: #0d0c0a; border: 1px solid var(--brass-dim); border-bottom: none;
+  transform: rotate(-14deg); transform-origin: 50% 100%;
+  box-shadow: inset 0 -3px 0 #5a4526;
+}
+#pip-frack .hat::after {
+  content: ""; position: absolute; left: -6px; right: -6px; bottom: -2px; height: 3px;
+  background: #0d0c0a; border: 1px solid var(--brass-dim); border-radius: 2px;
+}
+#pip-frack .bow {
+  left: -9px; top: calc(93.4% - 4px); width: 18px; height: 8px;
+  background: #f1ead6;
+  clip-path: polygon(0 0, 42% 35%, 58% 35%, 100% 0, 100% 100%, 58% 65%, 42% 65%, 0 100%);
+}
+#stage.frack #pip-frack i { animation: fadeIn .6s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } }
+
+/* ---------- Archive: förflyttningskarta (type: "map") ----------
+   Första steget (.map.shown) zoomar in: landet skalas, medan orter och
+   havsnamn flyttas till sina inzoomade lägen och behåller sin storlek. */
+.map-page { height: 100%; display: flex; gap: 14px; }
+.map {
+  position: relative; flex: none; height: 100%; aspect-ratio: 260 / 255; overflow: hidden;
+  border: 1px solid var(--brass-faint);
+  background: radial-gradient(ellipse at 40% 45%, #13201b, #0a110d 75%);
+}
+.map svg { display: block; width: 100%; height: 100%; }
+.map-world { transform-origin: 0 0; }
+.map.shown .map-world { transform: translate(calc(var(--tx) * 1px), calc(var(--ty) * 1px)) scale(var(--s)); }
+.map.fresh .map-world { animation: mapZoom 1.6s cubic-bezier(.6, 0, .3, 1); }
+@keyframes mapZoom { from { transform: none; } }
+.map-grid line { stroke: var(--brass-faint); stroke-width: .5; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }
+.map .land { fill: rgba(198, 167, 105, .13); stroke: var(--brass); stroke-width: .9; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.map .land.dk { fill: rgba(198, 167, 105, .05); stroke: var(--brass-dim); stroke-dasharray: 3 2; }
+
+.map .pin { transform: translate(calc(var(--x0) * 1px), calc(var(--y0) * 1px)); }
+.map.shown .pin { transform: translate(calc(var(--x1) * 1px), calc(var(--y1) * 1px)); }
+.map.fresh .pin { animation: pinMove 1.6s cubic-bezier(.6, 0, .3, 1); }
+@keyframes pinMove { from { transform: translate(calc(var(--x0) * 1px), calc(var(--y0) * 1px)); } }
+.map .pin circle { fill: var(--brass-dim); }
+.map .pin text { font: 500 5.2px var(--mono); letter-spacing: .08em; fill: var(--brass-dim); }
+.map .pin text.sea { font: italic 500 7px var(--serif); letter-spacing: .3em; fill: var(--brass-dim); opacity: .55; text-anchor: middle; }
+.map .pin.from circle, .map .pin.to circle { fill: var(--pale); }
+.map .pin.from text, .map .pin.to text { fill: var(--pale); font-size: 6px; }
+.map .pin .ring { fill: none !important; stroke: var(--stamp); stroke-width: .8; transform-box: fill-box; transform-origin: center; animation: ring 1.8s ease-out infinite; }
+@keyframes ring { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.map .pin .pin-note { fill: var(--stamp) !important; font-size: 4.2px !important; letter-spacing: .14em; opacity: 0; }
+.map.shown .pin .pin-note { opacity: 1; }
+.map.fresh .pin .pin-note { animation: fadeIn .5s 2.8s both; }
+.map:not(.shown) .pin.to { opacity: 0; }
+.map.shown .pin.to .ring { animation-delay: 2.6s; }
+.map.fresh .pin.to { animation: pinMove 1.6s cubic-bezier(.6, 0, .3, 1), fadeIn .4s 2.5s both; }
+
+.map-route { display: none; }
+.map.shown .map-route { display: inline; }
+.map-route path { fill: none; stroke: var(--stamp); stroke-width: 1.3; stroke-dasharray: 3 2; stroke-linecap: round; }
+.map marker path { fill: var(--stamp); }
+#map-draw path { fill: none; stroke: #fff; stroke-width: 12; stroke-dasharray: 1; }
+.map.fresh #map-draw path { animation: routeDraw 1.1s ease-in-out 1.5s both; }
+@keyframes routeDraw { from { stroke-dashoffset: 1; } }
+
+.map-scale { position: absolute; left: 6px; top: 5px; font-size: 6.5px; letter-spacing: .14em; color: var(--brass-dim); }
+.map-scale .z1, .map.shown .map-scale .z0 { display: none; }
+.map.shown .map-scale .z1 { display: inline; color: var(--stamp); }
+.map-cta { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); padding: 2px 8px; background: rgba(10, 17, 13, .85); white-space: nowrap; font-size: 7.5px; color: var(--pale); animation: blink 1.2s steps(2) infinite; }
+.map.shown .map-cta { display: none; }
+
+.map-side { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.map-side .dossier-head { padding-bottom: 3px; border-bottom: 1px solid var(--brass-faint); }
+.map-text p { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 14px; line-height: 16.5px; color: var(--pale); }
+.map-text p + p { margin-top: 5px; }
+.map-fact { display: none; flex-direction: column; gap: 1px; }
+.map-fact.shown { display: flex; }
+.map-fact.fresh { animation: rise .45s ease-out; }
+.map-fact > span { font-size: 7.5px; letter-spacing: .16em; color: var(--brass-dim); }
+.map-fact b { font-weight: 500; font-size: 11px; color: var(--pale); }
+.map-fact .meter-bar { margin-top: 2px; }
+.map-fact:not(.fresh) .meter-bar i.on { animation: none; background: var(--stamp); border-color: var(--stamp); }
+.map-fact .meter-bar i.on { animation-name: alarm; }
+.map-stamp { display: none; right: 10px; bottom: 14px; font-size: 12px; animation-delay: 0s; opacity: .92; }
+.map-stamp.shown { display: block; }
+.map-stamp.fresh { opacity: 0; animation-delay: .1s; }
+.map-stamp.shown:not(.fresh) { animation: none; }
+
+/* ==========================================================================
+   Archive: Allans karaktärskort (type: "specimen", se specimen.js)
+   Kortet till vänster ser ut som ett gammalt Pokémonkort: gul ram,
+   marmorerad insida i nivåns färg (--tint), bildfönster med guldkant och
+   förmågorna som attacker. Fältmätningen till höger hör till terminalen.
+   ========================================================================== */
+.specimen { position: relative; height: 100%; display: flex; gap: 16px; }
+
+.pk-card {
+  flex: none; position: relative;
+  height: 100%; aspect-ratio: 63 / 88;
+  padding: 7px;
+  border-radius: 9px;
+  background: linear-gradient(160deg, #f6d65a, #e9b93a 55%, #f3cf4e);
+  box-shadow: 0 0 0 1px #8a6a1c, 0 4px 14px rgba(0, 0, 0, .6);
+  font-family: "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+  color: #1d1a14;
+  overflow: hidden;
+}
+/* Holografisk glans som sveper över kortet då och då */
+.pk-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .28) 47%, rgba(190, 255, 240, .18) 52%, transparent 64%);
+  background-size: 300% 100%; background-position: 120% 0;
+  animation: pkShine 7s ease-in-out 1.5s infinite;
+}
+@keyframes pkShine { 0%, 70% { background-position: 120% 0; } 100% { background-position: -40% 0; } }
+
+.pk-inner {
+  height: 100%; display: flex; flex-direction: column;
+  padding: 3px 6px 2px;
+  border-radius: 3px;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(255, 255, 255, .55), transparent 55%),
+    radial-gradient(ellipse at 85% 60%, rgba(255, 255, 255, .4), transparent 50%),
+    radial-gradient(ellipse at 30% 85%, rgba(0, 0, 0, .12), transparent 55%),
+    var(--tint);
+}
+.pk-stage { font-size: 5px; font-weight: 700; letter-spacing: .04em; line-height: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pk-head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; }
+.pk-name { font-size: 13px; font-weight: 700; line-height: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pk-name span { margin-left: 3px; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.pk-lvl { flex: none; display: flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: #c4241c; }
+.pk-lvl small { font-size: 6px; }
+
+.pk-energy { display: inline-flex; gap: 1px; }
+.pk-energy i {
+  width: 10px; height: 10px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-style: normal; font-size: 6.5px; line-height: 1; color: #2a2418;
+  background: radial-gradient(circle at 35% 30%, #fff, #e8e2d0 45%, #a99f86);
+  box-shadow: 0 0 0 .5px rgba(0, 0, 0, .45);
+}
+
+.pk-pic.frame {
+  flex: none; height: 37%; margin-top: 1px;
+  padding: 0;
+  border: 3px solid #d7b13c;
+  border-color: #f4dc7c #b28c27 #9c7a20 #e8c75a;
+  background: #14170f;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+.pk-pic img { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; filter: none; }
+.pk-pic.frame.missing::after { font-size: 5.5px; line-height: 9px; }
+.pk-class {
+  position: absolute; left: 0; top: 0;
+  padding: 1px 4px 1px 3px;
+  font-size: 4.5px; font-weight: 700; letter-spacing: .08em; color: #1d1a14;
+  background: linear-gradient(#f6d65a, #e2b437);
+  border-bottom-right-radius: 3px;
+}
+.pk-scan { position: absolute; left: 0; right: 0; top: 0; height: 30%; opacity: 0; pointer-events: none;
+  background: linear-gradient(transparent, rgba(160, 255, 200, .45) 80%, rgba(220, 255, 230, .9)); }
+
+.pk-strip {
+  flex: none; margin: 2px 6px 1px;
+  padding: 1px 4px;
+  font-size: 5px; font-weight: 700; font-style: italic; line-height: 7px; text-align: center;
+  background: linear-gradient(90deg, #d9b23c, #f5dc7a 30%, #f0d063 70%, #c99f2a);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+.pk-abs { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: space-evenly; }
+.pk-ab { display: flex; align-items: center; gap: 4px; padding: 1px 0; position: relative; }
+.pk-ab + .pk-ab { border-top: .5px solid rgba(0, 0, 0, .55); }
+.pk-ab .pk-energy { flex: none; width: 21px; justify-content: center; }
+.pk-ab-text { flex: 1; min-width: 0; font-size: 5.2px; line-height: 6.6px; }
+.pk-ab-text b { font-size: 7px; }
+.pk-power { flex: none; min-width: 15px; text-align: right; font-size: 9.5px; font-weight: 400; }
+.pk-new {
+  display: inline-block; margin-left: 2px; padding: 0 2px;
+  font-style: normal; font-size: 4.5px; font-weight: 700; letter-spacing: .08em; line-height: 6px; vertical-align: 1px;
+  color: #fff; background: #c4241c; border-radius: 1px;
+}
+
+.pk-wrr { flex: none; display: flex; justify-content: space-between; padding: 1px 0; border-top: .5px solid rgba(0, 0, 0, .55); }
+.pk-wrr span { display: flex; flex-direction: column; align-items: center; font-size: 5.5px; font-weight: 700; line-height: 7px; }
+.pk-wrr small { font-size: 4.5px; font-weight: 400; }
+
+.pk-flavor {
+  flex: none; margin-top: 1px; padding: 2px 4px;
+  border: 1px solid #c9a43b;
+  font-size: 5px; font-weight: 700; font-style: italic; line-height: 6.5px;
+  background: rgba(255, 255, 255, .25);
+}
+.pk-flavor span { font-weight: 400; }
+.pk-flavor b { float: right; margin-left: 4px; font-style: normal; }
+.pk-foot { flex: none; display: flex; justify-content: space-between; font-size: 3.6px; line-height: 6px; opacity: .8; }
+
+/* Fältmätningen till höger */
+.spec-sheet { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; padding-top: 1px; }
+.spec-sheet .dossier-head { padding-bottom: 3px; border-bottom: 1px solid var(--brass-faint); color: var(--brass-dim); }
+.spec-evo { display: flex; align-items: baseline; gap: 8px; }
+.spec-evo small { font-size: 7.5px; letter-spacing: .16em; color: var(--brass-dim); }
+.spec-evo b { flex: 1; font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 18px; color: var(--pale); }
+.spec-evo span { font-size: 10px; letter-spacing: .14em; color: var(--brass); }
+
+.stats { display: flex; flex-direction: column; gap: 9px; }
+.stat { display: grid; grid-template-columns: 36px 86px 1fr 22px 26px; align-items: center; gap: 6px; }
+.stat b { font-weight: 500; font-size: 10px; letter-spacing: .1em; color: var(--pale); }
+.stat > span { font-size: 8px; letter-spacing: .06em; color: var(--brass-dim); white-space: nowrap; }
+.stat-bar { position: relative; height: 7px; border: 1px solid var(--brass-dim); }
+.stat-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--pale); box-shadow: 0 0 5px rgba(234, 217, 173, .45); }
+.stat.chaos .stat-bar i { background: var(--stamp); box-shadow: 0 0 5px rgba(192, 87, 61, .6); }
+.stat em { font-style: normal; font-size: 11px; text-align: right; color: var(--pale); }
+.stat small { font-size: 8.5px; letter-spacing: .04em; color: var(--brass-dim); }
+.stat small.up { color: #9fd38a; }
+.stat small.down { color: var(--stamp); }
+
+.spec-chain { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+.spec-chain ol { list-style: none; display: flex; align-items: center; }
+.spec-chain li { flex: 1; display: flex; align-items: center; }
+.spec-chain li:not(:last-child)::after { content: ""; flex: 1; height: 1px; margin: 0 3px; background: var(--brass-faint); }
+.spec-chain li.on:not(:last-child)::after, .spec-chain li.cur:not(:last-child)::after { background: var(--brass-dim); }
+.spec-chain i {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-style: normal; font-size: 8px; color: var(--brass-dim);
+  border: 1px dashed var(--brass-faint);
+}
+.spec-chain li.on i { border: 1px solid var(--brass-dim); color: var(--brass); }
+.spec-chain li.cur i { border: 1px solid var(--pale); color: var(--bg); background: var(--pale); box-shadow: 0 0 8px rgba(234, 217, 173, .55); }
+.spec-chain .small { font-size: 8px; }
+
+/* Åtkomstpunkten i arkivets kapitellista */
+.spec-badge {
+  float: right; display: inline-flex; align-items: center; gap: 5px; margin-left: 10px;
+  padding: 2px 6px; border: 1px solid var(--brass-dim);
+  font-size: 8px; letter-spacing: .12em; color: var(--brass);
+}
+.spec-badge > i:first-child { font-style: normal; color: #f3cf4e; }
+.spec-badge b { font-weight: 500; color: var(--pale); }
+
+/* LEVEL UP: kortet blixtrar till som när en Pokémon utvecklas, rutan visas
+   en stund och tonar bort, staplarna växer från den förra nivån och de nya
+   förmågorna lyser upp. Registreringen (första kortet) skannar bilden. */
+.levelup .pk-card { animation: evolve 1.3s ease-out; }
+@keyframes evolve {
+  0% { filter: brightness(1); transform: scale(1); }
+  15%, 30% { filter: brightness(2.6) saturate(0); transform: scale(1.03); }
+  22% { filter: brightness(1.4); }
+  100% { filter: brightness(1); transform: scale(1); }
+}
+.levelup .stat-bar i, .register .stat-bar i { animation: statGrow 1.1s cubic-bezier(.3, .8, .4, 1) 1s both; }
+@keyframes statGrow { from { width: var(--from); } }
+.levelup .stat small, .register .stat small { animation: fadeIn .4s 2s both; }
+.levelup .pk-ab.new { animation: abGlow 1.2s ease-in-out 1.4s 2; }
+@keyframes abGlow { 50% { background: rgba(255, 255, 255, .55); box-shadow: 0 0 6px rgba(255, 250, 220, .9); } }
+.register .pk-scan { animation: scan 1.4s ease-in-out .3s 2; }
+@keyframes scan { 0% { top: -30%; opacity: 1; } 100% { top: 100%; opacity: 1; } }
+
+.lvl-banner {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  animation: banner 4.6s ease-out forwards;
+}
+.lvl-banner.register { animation-duration: 3s; }
+@keyframes banner {
+  0% { opacity: 0; background: rgba(11, 14, 8, 0); }
+  8% { opacity: 1; background: rgba(11, 14, 8, .55); }
+  82% { opacity: 1; background: rgba(11, 14, 8, .55); }
+  100% { opacity: 0; visibility: hidden; }
+}
+.lvl-box {
+  min-width: 300px; padding: 12px 22px 13px;
+  text-align: center;
+  border: 1px solid var(--brass); outline: 1px solid var(--brass-faint); outline-offset: 3px;
+  background: rgba(11, 14, 8, .94);
+  box-shadow: 0 0 22px rgba(234, 217, 173, .2);
+  animation: lvlPop .45s cubic-bezier(.2, 1.4, .5, 1) .2s both;
+}
+@keyframes lvlPop { from { opacity: 0; transform: scale(.7); } }
+.lvl-head {
+  font-family: var(--serif); font-style: italic; font-weight: 600;
+  font-size: 32px; line-height: 34px; letter-spacing: .06em; color: #f3cf4e;
+  text-shadow: 0 0 12px rgba(243, 207, 78, .55);
+}
+.lvl-head.small-head { font-size: 21px; line-height: 26px; }
+.lvl-from { margin-top: 3px; font-size: 11px; letter-spacing: .2em; color: var(--pale); }
+.lvl-from .tri { margin: 0 6px; color: #f3cf4e; }
+.lvl-evo { margin-top: 6px; font-size: 9px; letter-spacing: .06em; color: var(--brass); }
+.lvl-evo b { font-weight: 500; color: var(--pale); }
+.lvl-ab { margin-top: 5px; font-size: 8.5px; letter-spacing: .14em; color: var(--brass-dim); animation: rise .4s ease-out .9s both; }
+.lvl-ab b { font-weight: 500; color: #9fd38a; }
+.lvl-pip { margin-top: 8px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13px; color: var(--pale); animation: rise .4s ease-out 1.3s both; }
