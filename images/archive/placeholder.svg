@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#c6a769" stroke-opacity=".12"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="#14170f"/>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <g fill="none" stroke="#c6a769" stroke-opacity=".6" stroke-width="2">
+    <circle cx="400" cy="270" r="90"/>
+    <circle cx="400" cy="270" r="40" stroke-dasharray="6 8"/>
+    <path d="M400 150v60M400 330v60M280 270h60M460 270h60"/>
+  </g>
+  <g font-family="monospace" fill="#c6a769" text-anchor="middle" letter-spacing="6">
+    <text x="400" y="450" font-size="26" fill="#ead9ad">EXHIBIT PENDING</text>
+    <text x="400" y="490" font-size="16" fill-opacity=".7">PHOTOGRAPH NOT YET DECLASSIFIED</text>
+  </g>
+</svg>

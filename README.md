@@ -33,10 +33,13 @@ Det går också bra att bara dubbelklicka på `index.html`.
 |---|---|
 | `index.html` | Sidans skelett. Behöver sällan ändras. |
 | `css/style.css` | Utseende och var panelerna sitter. |
-| `js/content.js` | **Alla texter.** Här redigerar du innehållet. |
+| `js/content.js` | **Nästan alla texter.** Här redigerar du innehållet. |
+| `js/archive.js` | **Arkivet:** kapitlen och alla bevis (bilder, chattar, inlägg). |
+| `js/specimen.js` | **Allans kort:** nivåer, förmågor och stats per kapitel. |
 | `js/app.js` | Logiken. Inställningarna står överst. |
 | `images/` | Bakgrundsbilden `background.png`. |
-| `audio/` | Ljudfilerna till Audio Logs. |
+| `images/archive/` | Fotona till Arkiv. |
+| `audio/` | Ljudfilerna till Ljudloggar. |
 | `fonts/` | Typsnitten (IBM Plex Mono och Cormorant Garamond, båda fria). |
 
 ## Ändra innehåll
@@ -51,18 +54,50 @@ Blir skärmen tom efter en ändring saknas nästan alltid ett kommatecken eller
 citattecken. Tryck F12 i webbläsaren och titta under **Console**, där står
 radnumret.
 
+## Fylla på arkivet
+
+Arkivet har sju kapitel och ligger i `js/archive.js`. Överst i filen står
+hur allt fungerar. Varje kapitel har en lista `items` med bevis, och varje
+bevis har en `type`:
+
+| type | Vad det är |
+|---|---|
+| `"image"` | Ett foto med valfri bildtext. A visar det i helskärm. |
+| `"text"` | En berättelse eller observation. |
+| `"chat"` | En återfunnen konversation. |
+| `"post"` | Ett arkiverat inlägg från sociala medier. |
+| `"pip"` | Dr. Pips fältanteckning. |
+
+Lägg till ett bevis genom att kopiera ett befintligt block av samma typ.
+Ett kapitel utan bevis visas som SEALED och går inte att öppna.
+
+Lägg fotona i `images/archive/`. Gör dem högst ca 1600 px breda så laddar de
+snabbt på Pi:n.
+
+I arkivet bläddrar vänster/höger mellan bevisen, A förstorar en bild och
+B går tillbaka till kapitellistan (och en gång till till huvudmenyn).
+
+## Allans kort
+
+Allans karaktärskort (SPECIMEN No. 001) ligger i `js/specimen.js`. Där finns
+en nivå per kapitel med namn, bild, förmågor och stats. Kortet visas
+först i kapitel 1 och sist i varje annat öppet kapitel, och första gången en ny nivå visas
+kommer en LEVEL UP. I kapitellistan öppnar höger kortet, och där bläddrar
+man bland de nivåer som låsts upp. Nivåerna sparas inte när sidan laddas om.
+
 ## Lägga till ljud
 
 1. Lägg filen i `audio/`, till exempel `audio/log01.mp3` (mp3, ogg eller wav).
 2. Se till att samma filnamn står i listan `audio` i `js/content.js`.
 
-Saknas en fil visas "FILE NOT FOUND" på raden.
+Saknas en fil visas "FIL SAKNAS" på raden.
 
 ## Byta bakgrundsbild
 
-Ersätt `images/background.png` med en bild som har samma namn och samma
-proportioner (1639×960, vilket motsvarar 1024×600). Panelernas lägen står i
-procent i `css/style.css`, så de följer med om bilden är ritad på samma sätt.
+Ersätt `images/background.png` med en bild som har samma namn. Nuvarande bild
+är 1672×941 (16:9) och sträcks lite på höjden till 1024×600. Panelernas lägen
+står i procent i `css/style.css`, så de följer med om bilden är ritad på samma
+sätt. Ritas bilden om måste lägena mätas upp på nytt.
 
 ## Joystick och knappnummer
 
@@ -88,7 +123,7 @@ sätter du `invertX` eller `invertY` till `true`.
 
 I samma block ändrar du också ljudvolymen (`volume`), stänger av ljudet
 (`sound: false`) och hur många sektioner som krävs för att låsa upp
-Final Report (`unlockAfter`).
+Slutrapport (`unlockAfter`).
 
 ## Köra på Raspberry Pi i kiosk-läge
 
